@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TransLynk — Where Loads Meet Trucks</title>
+<style>
+:root{--bg:#11161c;--panel:#19212a;--panel2:#202a35;--blue:#1687ff;--blue2:#0b6ed1;--text:#f5f7fa;--muted:#aab4bf;--line:#303b47;--ok:#32d583;--warn:#fdb022;--danger:#f97068}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:var(--bg);color:var(--text)}button,input,select{font:inherit}button{cursor:pointer}
+.nav{height:68px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 6%;background:#11161cf5;position:sticky;top:0;z-index:10}.brand{font-size:23px;font-weight:800}.brand span{color:#58aaff}.navlinks{display:flex;gap:22px;align-items:center}.navlinks a{color:#dbe4ed;text-decoration:none;font-size:14px}.btn{border:0;border-radius:9px;padding:12px 17px;font-weight:700}.primary{background:var(--blue);color:white}.ghost{background:transparent;border:1px solid var(--line);color:white}.danger{background:#4a2225;color:#ffb4ae}
+.hero{background:linear-gradient(135deg,#0879ea 0%,#1261bb 55%,#174e8e 100%);padding:70px 6% 74px}.hero-inner{max-width:1100px;margin:auto}.eyebrow{font-size:12px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;opacity:.82}.hero h1{font-size:clamp(38px,6vw,64px);line-height:1.02;margin:13px 0 16px;max-width:760px}.hero p{font-size:18px;max-width:650px;color:#eaf4ff;line-height:1.6}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}.hero .ghost{border-color:#9dccff;background:#ffffff12}
+.container{max-width:1100px;margin:auto;padding:42px 6%}.section-title{font-size:28px;margin:0 0 8px}.section-sub{color:var(--muted);margin:0 0 25px}
+.searchbar,.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}.searchbar{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;margin-top:-30px;position:relative;box-shadow:0 14px 40px #0005}.input{width:100%;background:#11171e;border:1px solid var(--line);color:white;border-radius:8px;padding:12px;outline:none}.input:focus{border-color:#3a9aff}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:20px}.card h3{margin:0 0 8px}.muted{color:var(--muted)}.tag{display:inline-block;padding:5px 9px;border-radius:999px;background:#12304c;color:#8dc6ff;font-size:12px;font-weight:700}.row{display:flex;justify-content:space-between;gap:12px;align-items:center}.price{font-weight:800;font-size:20px}.load-actions{margin-top:15px;display:flex;gap:8px;flex-wrap:wrap}
+.account{display:none}.account.active{display:block}.auth-wrap{max-width:520px;margin:35px auto}.tabs{display:flex;gap:8px;margin-bottom:15px}.tabs button{flex:1}.small{font-size:12px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.formgrid .full{grid-column:1/-1}.msg{margin-top:12px;padding:10px 12px;border-radius:8px;background:#202a35;color:#dce7f1;display:none}.msg.show{display:block}.success{border:1px solid #1c7d52}.error{border:1px solid #8d3434}
+.dashboard{display:none}.dashboard.active{display:block}.dashhead{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:20px}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}.metric{background:var(--panel);border:1px solid var(--line);padding:17px;border-radius:12px}.metric strong{font-size:25px;display:block}.metric span{font-size:12px;color:var(--muted)}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;padding:12px;border-bottom:1px solid var(--line);font-size:13px;white-space:nowrap}.status{font-size:11px;padding:5px 8px;border-radius:99px;background:#27313b}.status.ok{background:#123b2b;color:#7ce8b2}.status.blue{background:#123453;color:#8dc6ff}.status.warn{background:#463814;color:#f9d77d}
+.tracking{display:none}.tracking.active{display:block}.trackbox{display:grid;grid-template-columns:1fr 1fr;gap:16px}.map{min-height:330px;border:1px solid var(--line);border-radius:13px;background:radial-gradient(circle at 30% 40%,#21496a 0 2px,transparent 3px),linear-gradient(135deg,#17222d,#10171d);position:relative;overflow:hidden}.road{position:absolute;width:140%;height:3px;background:#657482;transform:rotate(-24deg);top:52%;left:-20%}.truckdot{position:absolute;left:57%;top:45%;width:18px;height:18px;background:#1687ff;border:3px solid white;border-radius:50%;box-shadow:0 0 0 8px #1687ff33}.trackinfo{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:20px}.kvs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.kv{background:#11171e;border-radius:8px;padding:11px}.kv small{display:block;color:var(--muted);font-size:11px}.kv b{display:block;margin-top:3px}.footer{border-top:1px solid var(--line);padding:28px 6%;color:var(--muted);font-size:13px;text-align:center}
+@media(max-width:800px){.navlinks a{display:none}.searchbar,.grid,.trackbox,.metrics{grid-template-columns:1fr}.searchbar{margin-top:0}.hero{padding-top:48px}.formgrid{grid-template-columns:1fr}.formgrid .full{grid-column:auto}.container{padding-top:32px}.dashhead{align-items:flex-start;flex-direction:column}}
+</style>
+
+<style>
+.v12grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}.formcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}.formcard h3{margin-top:0}.notice{background:#132a40;border:1px solid #24567f;color:#cfe8ff;border-radius:10px;padding:12px;font-size:13px;line-height:1.5}.checkrow{display:flex;gap:9px;align-items:flex-start;color:#c9d3dd;font-size:13px}.checkrow input{margin-top:3px}.upload{border:1px dashed #506070;border-radius:10px;padding:16px;text-align:center;color:var(--muted);cursor:pointer}.upload:hover{border-color:#4da2ff}.routebar{display:grid;grid-template-columns:1fr 1fr;gap:10px}.company-actions{display:flex;gap:8px;flex-wrap:wrap}.modal{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;padding:20px;z-index:50}.modal.active{display:flex}.modalbox{max-width:620px;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;max-height:90vh;overflow:auto}.doclist{display:grid;gap:10px}.doc{display:flex;justify-content:space-between;gap:12px;align-items:center;background:#11171e;border-radius:9px;padding:12px}.doc small{color:var(--muted)}.mapreal{min-height:330px;border:1px solid var(--line);border-radius:13px;overflow:hidden;background:#15202a;position:relative}.mapreal iframe{width:100%;height:330px;border:0;opacity:.9}.mapfallback{padding:30px;text-align:center;color:var(--muted)}.copybox{display:flex;gap:8px}.copybox input{flex:1}.toast{position:fixed;right:18px;bottom:18px;background:#202a35;border:1px solid var(--line);padding:13px 16px;border-radius:10px;display:none;z-index:60}.toast.show{display:block}.verify{color:#7ce8b2;font-size:12px;font-weight:700}.warning{color:#f9d77d;font-size:12px;font-weight:700}
+@media(max-width:800px){.v12grid,.routebar{grid-template-columns:1fr}.modalbox{padding:16px}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="brand">Trans<span>Lynk</span></div>
+  <div class="navlinks">
+    <a href="#loads">Find Loads</a><a href="#how">How it works</a><a href="#account">Account</a>
+    <button class="btn primary" onclick="showAuth('login')">Login</button>
+  </div>
+</nav>
+
+<section class="hero">
+ <div class="hero-inner">
+  <div class="eyebrow">Where Loads Meet Trucks</div>
+  <h1>Move loads. Find trucks. Get moving.</h1>
+  <p>A simple transport marketplace connecting cargo owners, companies and verified truck operators — with visibility from pickup to delivery.</p>
+  <div class="hero-actions"><button class="btn primary" onclick="showAuth('register')">Create account</button><button class="btn ghost" onclick="document.getElementById('loads').scrollIntoView({behavior:'smooth'})">Find a load</button></div>
+ </div>
+</section>
+
+<main>
+<section id="loads" class="container">
+ <div class="searchbar">
+   <input id="q" class="input" placeholder="Pickup or destination">
+   <input id="cargo" class="input" placeholder="Cargo / truck type">
+   <select id="roleFilter" class="input"><option value="">All loads</option><option value="driver">For drivers</option><option value="company">My posted loads</option></select>
+   <button class="btn primary" onclick="loadLoads()">Search</button>
+ </div>
+ <div style="height:40px"></div>
+ <h2 class="section-title">Live marketplace</h2><p class="section-sub">Connected directly to the TransLynk backend. Demo cards disappear when the API is unavailable.</p>
+ <div id="loadList" class="grid"></div>
+ <div id="loadMsg" class="msg"></div>
+</section>
+
+<section id="how" class="container">
+ <h2 class="section-title">How TransLynk works</h2><p class="section-sub">Simple for drivers. Reliable for companies.</p>
+ <div class="grid">
+  <div class="card"><span class="tag">01</span><h3>Post or find</h3><p class="muted">Companies post cargo. Drivers find suitable loads and show interest.</p></div>
+  <div class="card"><span class="tag">02</span><h3>Match & assign</h3><p class="muted">The company reviews interested transporters and assigns the load.</p></div>
+  <div class="card"><span class="tag">03</span><h3>Track & deliver</h3><p class="muted">Driver starts the trip and sends GPS updates until arrival and delivery.</p></div>
+ </div>
+</section>
+
+<section id="account" class="container account">
+ <div class="auth-wrap panel" id="authPanel">
+  <div class="tabs"><button id="loginTab" class="btn primary" onclick="showAuth('login')">Login</button><button id="registerTab" class="btn ghost" onclick="showAuth('register')">Register</button></div>
+  <div id="loginBox">
+   <h2>Welcome back</h2><p class="muted">Use your TransLynk phone number or email.</p>
+   <input id="li" class="input" placeholder="Phone or email"><br><br><input id="lp" type="password" class="input" placeholder="Password"><br><br>
+   <button class="btn primary" style="width:100%" onclick="login()">Login</button><div id="loginMsg" class="msg"></div>
+  </div>
+  <div id="registerBox" style="display:none">
+   <h2>Create your account</h2><p class="muted">Choose the account that matches your role.</p>
+   <div class="tabs"><button id="driverRole" class="btn primary" onclick="setRegRole('driver')">Driver / Truck Owner</button><button id="companyRole" class="btn ghost" onclick="setRegRole('company')">Company / Cargo Owner</button></div>
+   <div class="formgrid">
+    <input id="rn" class="input full" placeholder="Full name">
+    <input id="rp" class="input" placeholder="Phone">
+    <input id="re" class="input" placeholder="Email (optional)">
+    <input id="rpass" type="password" class="input full" placeholder="Password (8+ characters)">
+    <div id="driverFields" class="formgrid full">
+      <input id="lic" class="input" placeholder="Driver licence number">
+      <input id="lexp" type="date" class="input" title="Licence expiry">
+      <input id="home" class="input full" placeholder="Home base / operating area">
+    </div>
+    <div id="companyFields" class="formgrid full" style="display:none">
+      <input id="cname" class="input full" placeholder="Company name">
+      <input id="creg" class="input" placeholder="CAC / registration number">
+      <input id="caddr" class="input" placeholder="Business address">
+    </div>
+   </div><br><button class="btn primary" style="width:100%" onclick="register()">Create account</button><div id="regMsg" class="msg"></div>
+  </div>
+ </div>
+</section>
+
+<section class="container dashboard" id="dashboard">
+ <div class="dashhead"><div><h2 class="section-title" id="dashTitle">Dashboard</h2><p class="section-sub" id="dashSub"></p></div><button class="btn danger" onclick="logout()">Logout</button></div>
+ <div class="metrics" id="metrics"></div>
+ <div class="panel" id="dashContent"></div>
+</section>
+
+<section class="container tracking" id="tracking">
+ <div class="dashhead"><div><h2 class="section-title">Live trip tracking</h2><p class="section-sub">GPS updates from the assigned driver's phone.</p></div><button class="btn ghost" onclick="hideTracking()">Back</button></div>
+ <div class="trackbox"><div class="map"><div class="road"></div><div class="truckdot"></div></div><div class="trackinfo" id="trackInfo"></div></div>
+</section>
+
+<section class="container" id="v12tools">
+ <div class="v12grid">
+  <div class="formcard">
+   <h2 class="section-title">Post a professional load</h2>
+   <p class="section-sub">Give carriers the information they need before they accept the job.</p>
+   <div class="routebar">
+    <input id="v12pickup" class="input" placeholder="Pickup location">
+    <input id="v12delivery" class="input" placeholder="Delivery location">
+   </div><br>
+   <div class="formgrid">
+    <input id="v12cargo" class="input" placeholder="Cargo description">
+    <input id="v12weight" class="input" type="number" placeholder="Weight (tons)">
+    <input id="v12price" class="input" type="number" placeholder="Offered price (NGN)">
+    <input id="v12date" class="input" type="date">
+    <input id="v12truck" class="input full" placeholder="Required truck type (e.g. trailer, tanker, tipper)">
+    <textarea id="v12notes" class="input full" rows="4" placeholder="Special instructions / loading information"></textarea>
+   </div><br>
+   <label class="checkrow"><input id="v12terms" type="checkbox"> I confirm the cargo and route information is accurate and I have authority to post this load.</label><br>
+   <button class="btn primary" onclick="v12PostLoad()">Publish load</button>
+   <div id="v12postmsg" class="msg"></div>
+  </div>
+  <div class="formcard">
+   <h3>TransLynk protection layer</h3>
+   <div class="notice">Every production load should move through <b>verified transporter → assigned trip → GPS visibility → delivery proof</b>.</div>
+   <p class="muted">V12 adds the workflow UI. Document storage, verification review, payments and production maps are kept behind secure server-side services.</p>
+   <div class="doclist">
+    <div class="doc"><span>Driver licence</span><span class="warning">Pending</span></div>
+    <div class="doc"><span>Truck documents</span><span class="warning">Pending</span></div>
+    <div class="doc"><span>Identity verification</span><span class="warning">Pending</span></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="container" id="verification">
+ <h2 class="section-title">Verification</h2>
+ <p class="section-sub">Build trust before a truck moves cargo.</p>
+ <div class="grid">
+  <div class="card"><span class="tag">DRIVER</span><h3>Identity & licence</h3><p class="muted">Collect licence number, expiry and verification status.</p><button class="btn ghost" onclick="openDocs('driver')">Manage documents</button></div>
+  <div class="card"><span class="tag">TRUCK</span><h3>Vehicle documents</h3><p class="muted">Register plate, type, capacity and required vehicle documents.</p><button class="btn ghost" onclick="openDocs('truck')">Manage documents</button></div>
+  <div class="card"><span class="tag">COMPANY</span><h3>Business verification</h3><p class="muted">Keep company registration information and verification status in one place.</p><button class="btn ghost" onclick="openDocs('company')">Manage documents</button></div>
+ </div>
+</section>
+
+<div class="modal" id="docsModal">
+ <div class="modalbox">
+  <div class="row"><div><h2 id="docsTitle">Documents</h2><p class="muted">V12 secure-document workflow.</p></div><button class="btn ghost" onclick="closeDocs()">Close</button></div>
+  <div class="notice">For production, documents must upload to private object storage using short-lived signed URLs. Never expose identity documents through a public tracking link.</div><br>
+  <label class="upload"><input id="docFile" type="file" hidden accept=".jpg,.jpeg,.png,.pdf">Tap to select a document</label>
+  <div id="docSelected" class="msg"></div>
+  <br><button class="btn primary" onclick="submitDoc()">Save document record</button>
+ </div>
+</div>
+
+<div class="toast" id="toast"></div>
+</main>
+<footer class="footer">© 2026 TransLynk · Where Loads Meet Trucks</footer>
+
+<script>
+const API_BASE = localStorage.getItem('translynk_api') || 'https://translynk-backend.onrender.com/api';
+let token=localStorage.getItem('translynk_token')||'', me=null, regRole='driver', watchId=null, activeTrip=null;
+
+const $=id=>document.getElementById(id);
+function msg(id,text,ok=false){const e=$(id);e.textContent=text;e.className='msg show '+(ok?'success':'error')}
+function account(){ $('account').classList.add('active'); $('account').scrollIntoView({behavior:'smooth'}); }
+function showAuth(mode){account();$('loginBox').style.display=mode==='login'?'block':'none';$('registerBox').style.display=mode==='register'?'block':'none';$('loginTab').className='btn '+(mode==='login'?'primary':'ghost');$('registerTab').className='btn '+(mode==='register'?'primary':'ghost')}
+function setRegRole(r){regRole=r;$('driverFields').style.display=r==='driver'?'grid':'none';$('companyFields').style.display=r==='company'?'grid':'none';$('driverRole').className='btn '+(r==='driver'?'primary':'ghost');$('companyRole').className='btn '+(r==='company'?'primary':'ghost')}
+async function api(path,opt={}){opt.headers=Object.assign({'Content-Type':'application/json'},opt.headers||{});if(token)opt.headers.Authorization='Bearer '+token;const r=await fetch(API_BASE+path,opt);let d={};try{d=await r.json()}catch{}if(!r.ok)throw new Error(d.error||'Request failed');return d}
+async function login(){try{const d=await api('/auth/login',{method:'POST',body:JSON.stringify({identifier:$('li').value.trim(),password:$('lp').value})});token=d.token;localStorage.setItem('translynk_token',token);await loadMe();msg('loginMsg','Login successful.',true)}catch(e){msg('loginMsg',e.message)}}
+async function register(){const body={fullName:$('rn').value.trim(),phone:$('rp').value.trim(),email:$('re').value.trim()||null,password:$('rpass').value,role:regRole};if(regRole==='driver')Object.assign(body,{licenceNumber:$('lic').value.trim()||null,licenceExpiry:$('lexp').value||null,homeBase:$('home').value.trim()||null});else Object.assign(body,{companyName:$('cname').value.trim(),registrationNumber:$('creg').value.trim()||null,address:$('caddr').value.trim()||null});try{const d=await api('/auth/register',{method:'POST',body:JSON.stringify(body)});token=d.token;localStorage.setItem('translynk_token',token);await loadMe();msg('regMsg','Account created successfully.',true)}catch(e){msg('regMsg',e.message)}}
+async function loadMe(){try{me=await api('/me');renderDash();}catch(e){logout();}}
+function logout(){token='';me=null;localStorage.removeItem('translynk_token');$('dashboard').classList.remove('active');$('account').classList.remove('active');showAuth('login');}
+function renderDash(){if(!me)return;$('dashboard').classList.add('active');$('authPanel').style.display='none';$('dashTitle').textContent=me.user.role==='driver'?'Driver dashboard':'Company dashboard';$('dashSub').textContent='Welcome, '+me.user.full_name; if(me.user.role==='driver')driverDash();else companyDash();$('dashboard').scrollIntoView({behavior:'smooth'});}
+async function driverDash(){let loads=[];try{loads=(await api('/loads')).loads||[]}catch{}const trucks=me.trucks||[];$('metrics').innerHTML=`<div class="metric"><strong>${loads.length}</strong><span>Open loads</span></div><div class="metric"><strong>${trucks.length}</strong><span>Registered trucks</span></div><div class="metric"><strong>${trucks.filter(t=>t.verified).length}</strong><span>Verified trucks</span></div><div class="metric"><strong>${trucks[0]?.plate_number||'—'}</strong><span>Primary truck</span></div>`;$('dashContent').innerHTML=`<div class="row"><div><h3>My truck</h3><p class="muted">Register the truck you want companies to see.</p></div><button class="btn primary" onclick="addTruck()">Register truck</button></div><hr style="border-color:var(--line);border-width:1px 0 0;margin:20px 0"><div class="tablewrap"><table class="table"><thead><tr><th>Plate</th><th>Type</th><th>Capacity</th><th>Verified</th></tr></thead><tbody>${trucks.map(t=>`<tr><td>${t.plate_number}</td><td>${t.truck_type}</td><td>${t.capacity_tons||'—'} t</td><td><span class="status ${t.verified?'ok':''}">${t.verified?'Verified':'Pending'}</span></td></tr>`).join('')||'<tr><td colspan="4" class="muted">No truck registered yet.</td></tr>'}</tbody></table></div><div style="margin-top:22px"><h3>Available loads</h3><p class="muted">Use the marketplace above to show interest.</p></div>`}
+async function companyDash(){let loads=[];try{loads=(await api('/loads/mine')).loads||[]}catch{}$('metrics').innerHTML=`<div class="metric"><strong>${loads.length}</strong><span>My loads</span></div><div class="metric"><strong>${loads.filter(x=>x.status==='open').length}</strong><span>Open</span></div><div class="metric"><strong>${loads.filter(x=>x.status==='in_transit').length}</strong><span>In transit</span></div><div class="metric"><strong>${loads.filter(x=>x.status==='delivered').length}</strong><span>Delivered</span></div>`;$('dashContent').innerHTML=`<div class="row"><div><h3>My loads</h3><p class="muted">Post cargo and review interested transporters.</p></div><button class="btn primary" onclick="postLoad()">Post a load</button></div><hr style="border-color:var(--line);border-width:1px 0 0;margin:20px 0"><div class="tablewrap"><table class="table"><thead><tr><th>Route</th><th>Cargo</th><th>Status</th><th>Action</th></tr></thead><tbody>${loads.map(x=>`<tr><td>${x.pickup_location} → ${x.delivery_location}</td><td>${x.cargo_description}</td><td><span class="status ${x.status==='delivered'?'ok':x.status==='in_transit'?'blue':'warn'}">${x.status}</span></td><td>${x.status==='open'?`<button class="btn ghost" onclick="v12Interests('${x.id}')">Interested</button>`:x.status==='in_transit'&&x.trip_id?`<button class="btn ghost" onclick="viewTrip('${x.trip_id}')">Track</button>`:'—'}</td></tr>`).join('')||'<tr><td colspan="4" class="muted">No loads posted yet.</td></tr>'}</tbody></table></div>`}
+async function addTruck(){const plate=prompt('Truck plate number:');if(!plate)return;const type=prompt('Truck type (Trailer, Tanker, Tipper, etc.):');if(!type)return;const cap=prompt('Capacity in tons (optional):');try{await api('/trucks',{method:'POST',body:JSON.stringify({plateNumber:plate,truckType:type,capacityTons:cap?Number(cap):null})});await loadMe()}catch(e){alert(e.message)}}
+async function postLoad(){const pickup=prompt('Pickup location:');if(!pickup)return;const delivery=prompt('Delivery location:');if(!delivery)return;const cargo=prompt('Cargo description:');if(!cargo)return;const weight=prompt('Weight in tons (optional):');const price=prompt('Offered price in NGN (optional):');try{await api('/loads',{method:'POST',body:JSON.stringify({pickupLocation:pickup,deliveryLocation:delivery,cargoDescription:cargo,weightTons:weight?Number(weight):null,offeredPrice:price?Number(price):null})});await loadMe();alert('Load posted successfully.')}catch(e){alert(e.message)}}
+async function loadLoads(){const q=($('q').value+' '+$('cargo').value).trim().toLowerCase();try{const d=await api('/loads');let arr=d.loads||[];if(q)arr=arr.filter(x=>`${x.pickup_location} ${x.delivery_location} ${x.cargo_description}`.toLowerCase().includes(q));$('loadList').innerHTML=arr.map(x=>`<div class="card"><div class="row"><span class="tag">${x.status}</span><span class="price">${x.offered_price?'₦'+Number(x.offered_price).toLocaleString():'Price on request'}</span></div><h3 style="margin-top:15px">${x.pickup_location} → ${x.delivery_location}</h3><p class="muted">${x.cargo_description}${x.weight_tons?' · '+x.weight_tons+' tons':''}</p><div class="load-actions">${me?.user?.role==='driver'&&x.status==='open'?`<button class="btn primary" onclick="interest('${x.id}')">I'm Interested</button>`:''}${x.trip_id?`<button class="btn ghost" onclick="viewTrip('${x.trip_id}')">Track trip</button>`:''}</div></div>`).join('')||'<div class="card"><p class="muted">No loads match your search.</p></div>'}catch(e){$('loadList').innerHTML='<div class="card"><p class="muted">Connect the backend to view live loads.</p></div>'}}
+async function interest(id){if(!token){showAuth('login');return}try{await api('/loads/'+id+'/interest',{method:'POST'});alert('Interest sent to the company.');loadLoads()}catch(e){alert(e.message)}}
+async function viewTrip(id){try{const d=await api('/trips/'+id);activeTrip=d.trip;renderTrip(d.trip);$('tracking').classList.add('active');$('tracking').scrollIntoView({behavior:'smooth'})}catch(e){alert(e.message)}}
+function renderTrip(t){$('trackInfo').innerHTML=`<span class="tag">${t.status}</span><h3 style="margin-top:15px">${t.pickup_location} → ${t.delivery_location}</h3><p class="muted">${t.cargo_description||''} · ${t.weight_tons||'—'} tons</p><div class="kvs"><div class="kv"><small>Driver</small><b>${t.driver_name}</b></div><div class="kv"><small>Company</small><b>${t.company_name}</b></div><div class="kv"><small>Latitude</small><b>${t.last_latitude??'—'}</b></div><div class="kv"><small>Longitude</small><b>${t.last_longitude??'—'}</b></div><div class="kv"><small>Speed</small><b>${t.last_speed_kmh??'—'} km/h</b></div><div class="kv"><small>Last seen</small><b>${t.last_seen_at?new Date(t.last_seen_at).toLocaleString():'—'}</b></div></div>
+<div style="margin-top:16px"><small class="muted">Tracking link</small><div class="copybox"><input id="shareLink" class="input" readonly value="${t.share_token?location.origin+location.pathname+'?track='+encodeURIComponent(t.share_token):'Created when trip starts'}"><button class="btn ghost" onclick="copyShare()">Copy</button></div></div>`}
+function hideTracking(){$('tracking').classList.remove('active')}
+async function startGps(tripId){if(!navigator.geolocation)return alert('GPS is not supported on this device/browser.');if(watchId)navigator.geolocation.clearWatch(watchId);watchId=navigator.geolocation.watchPosition(async p=>{try{await api('/trips/'+tripId+'/location',{method:'POST',body:JSON.stringify({latitude:p.coords.latitude,longitude:p.coords.longitude,accuracyM:p.coords.accuracy,speedKmh:p.coords.speed?Math.max(0,p.coords.speed*3.6):null,heading:p.coords.heading})})}catch(e){console.log(e.message)}},e=>alert('GPS permission/error: '+e.message),{enableHighAccuracy:true,maximumAge:10000,timeout:15000})}
+if(token)loadMe();loadLoads();
+
+// ================= V12 production workflow helpers =================
+let v12DocType='';
+function toast(t){const x=$('toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),2600)}
+function openDocs(type){v12DocType=type;$('docsTitle').textContent=type.charAt(0).toUpperCase()+type.slice(1)+' documents';$('docsModal').classList.add('active')}
+function closeDocs(){$('docsModal').classList.remove('active')}
+$('docFile')?.addEventListener('change',e=>{const f=e.target.files[0];if(f)msg('docSelected',f.name+' selected. Production upload endpoint will handle the file securely.',true)})
+async function submitDoc(){if(!$('docFile').files.length){toast('Select a document first.');return}if(!token){toast('Please login first.');showAuth('login');return}toast('Document record ready. V12 backend upload service is the next deployment step.');closeDocs()}
+async function v12PostLoad(){
+ if(!token){showAuth('login');toast('Login as a company/cargo owner to post a load.');return}
+ if(!me || me.user.role!=='company'){toast('Only Company/Cargo Owner accounts can post loads.');return}
+ if(!$('v12terms').checked){msg('v12postmsg','Please confirm the load information is accurate.');return}
+ const body={
+  pickupLocation:$('v12pickup').value.trim(),
+  deliveryLocation:$('v12delivery').value.trim(),
+  cargoDescription:$('v12cargo').value.trim(),
+  weightTons:$('v12weight').value?Number($('v12weight').value):null,
+  offeredPrice:$('v12price').value?Number($('v12price').value):null,
+  pickupDate:$('v12date').value||null,
+  truckType:$('v12truck').value.trim()||null,
+  notes:$('v12notes').value.trim()||null
+ };
+ if(!body.pickupLocation||!body.deliveryLocation||!body.cargoDescription){msg('v12postmsg','Pickup, delivery and cargo description are required.');return}
+ try{await api('/loads',{method:'POST',body:JSON.stringify(body)});msg('v12postmsg','Load published successfully.',true);['v12pickup','v12delivery','v12cargo','v12weight','v12price','v12date','v12truck','v12notes'].forEach(id=>$(id).value='');$('v12terms').checked=false;await loadMe();loadLoads()}catch(e){msg('v12postmsg',e.message)}
+}
+async function v12Assign(loadId,driverId){
+ try{await api('/loads/'+loadId+'/assign',{method:'POST',body:JSON.stringify({driverId})});toast('Driver assigned.');await loadMe();loadLoads()}catch(e){toast(e.message)}
+}
+async function v12Interests(loadId){
+ try{
+  const d=await api('/loads/'+loadId+'/interests');
+  const list=d.interests||[];
+  if(!list.length){alert('No drivers have shown interest yet.');return}
+  const choices=list.map((x,i)=>`${i+1}. ${x.driver_name} — ${x.plate_number||'No truck'} — ${x.phone||''}`).join('\n');
+  const n=prompt('Interested transporters:\\n\\n'+choices+'\\n\\nEnter the number to assign:');
+  if(!n)return; const selected=list[Number(n)-1]; if(!selected)return alert('Invalid selection.');
+  await v12Assign(loadId,selected.driver_id);
+ }catch(e){alert(e.message)}
+}
+</script>
+</body>
+</html>
+<script>
+function copyShare(){const e=$('shareLink');if(!e)return;navigator.clipboard?.writeText(e.value);toast('Tracking link copied.')}
+</script>
